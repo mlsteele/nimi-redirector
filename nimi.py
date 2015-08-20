@@ -15,17 +15,9 @@ routes = {
 
 @app.route("/")
 def root():
-  lines = []
-  lines.append("<h1>Nimi Redirector</h1>")
-  lines.append("<p>Short link forwarding service.</p>")
-  lines.append("<h2>Links</h2>")
-  lines.append("<table>")
   display_routes = itertools.islice(routes.iteritems(), 40)
-  for slug, url in display_routes:
-    lines.append("<tr><td>{}</td><td>{}</td></tr>".format(
-      slug, url))
-  lines.append("</table>")
-  return "\n".join(lines)
+  return flask.render_template("index.html",
+                               routes=display_routes)
 
 @app.route("/<path:path>")
 def somewhere(path):

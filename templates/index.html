@@ -1,0 +1,21 @@
+<!doctype html>
+</body>
+<head>
+<title>Nimi </title>
+</head>
+
+<h1>Nimi Redirector</h1>
+<p>Short link forwarding service.</p>
+
+<h2>Links</h2>
+
+<table>
+{% for slug, url in routes %}
+  <tr>
+    <td>{{ slug }}</td>
+    <td>{{ url }}</td>
+  </tr>
+{% endfor %}
+</table>
+</body>
+</html>
