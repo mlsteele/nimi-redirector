@@ -12,8 +12,15 @@
 <table>
 {% for slug, url in routes %}
   <tr>
-    <td>{{ slug }}</td>
-    <td>{{ url }}</td>
+    <td>
+      <form method="post">
+        <input hidden="true" name="action" value="delete">
+        <input hidden="true" name="slug" value="{{ slug }}">
+        <button>X</button>
+      </form>
+    </td>
+    <td><a href="{{ slug }}">{{ slug }}</a></td>
+    <td><a href="{{ url }}">{{ url }}</a></td>
   </tr>
 {% endfor %}
 </table>

@@ -7,7 +7,9 @@
 <h1>No Such Link</h1>
 <p>Add a link for <b>{{ slug }}</b></p>
 
-<form method="post">
+<form action="/" method="post">
+  <input hidden="true" name="action" value="create">
+  <input hidden="true" name="slug" value="{{ slug }}">
   <input name="url" placeholder="{{ example }}" autofocus="true">
   <button>Ok</button>
 </form>
