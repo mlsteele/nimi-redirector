@@ -1,7 +1,8 @@
 import flask
+import itertools
 app = flask.Flask(__name__)
 
-ROUTES = {
+routes = {
   "findclass": "http://student.mit.edu/catalog/extsearch.cgi",
   "mitpay": "https://student.mit.edu/cgi-bin/mitpay.pl",
   "ist": "https://ist.mit.edu/software-hardware",
@@ -16,7 +17,8 @@ def root():
   lines.append("<p>Short link forwarding service.</p>")
   lines.append("<h2>Links</h2>")
   lines.append("<table>")
-  for slug, href in ROUTES.iteritems():
+  display_routes = itertools.islice(routes.iteritems(), 40)
+  for slug, href in display_routes:
     lines.append("<tr><td>{}</td><td>{}</td></tr>".format(
       slug, href))
   lines.append("</table>")
@@ -24,8 +26,8 @@ def root():
 
 @app.route("/<path:path>")
 def somewhere(path):
-  if path in ROUTES:
-    href = ROUTES[path]
+  if path in routes:
+    href = routes[path]
     return flask.redirect(href)
   else:
     return "No such route."
