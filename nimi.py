@@ -1,6 +1,9 @@
 import flask
 import itertools
+import random
 app = flask.Flask(__name__)
+
+EXAMPLE_WORDS = ["correct", "horse", "battery", "stapler"]
 
 routes = {
   "findclass": "http://student.mit.edu/catalog/extsearch.cgi",
@@ -18,19 +21,33 @@ def root():
   lines.append("<h2>Links</h2>")
   lines.append("<table>")
   display_routes = itertools.islice(routes.iteritems(), 40)
-  for slug, href in display_routes:
+  for slug, url in display_routes:
     lines.append("<tr><td>{}</td><td>{}</td></tr>".format(
-      slug, href))
+      slug, url))
   lines.append("</table>")
   return "\n".join(lines)
 
 @app.route("/<path:path>")
 def somewhere(path):
   if path in routes:
-    href = routes[path]
-    return flask.redirect(href)
+    url = routes[path]
+    return flask.redirect(url)
   else:
-    return "No such route."
+    return flask.render_template("unmapped.html",
+                                 slug=path,
+                                 example=get_example_url())
+
+@app.route("/<path:path>", methods=["POST"])
+def create(path):
+  url = flask.request.form["url"]
+  routes[path] = url
+  return flask.redirect("/")
+
+def get_example_url():
+  if random.random() < 0.1:
+    return "https://xkcd.com/{}/".format(random.randint(1, 1566))
+  else:
+    return "http://example.com/{}".format(random.choice(EXAMPLE_WORDS))
 
 if __name__ == "__main__":
   app.debug = True
