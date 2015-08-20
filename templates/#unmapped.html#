@@ -1,7 +1,0 @@
-<!doctype html>
-</body>
-<head>
-<title>Nimi - No Such Link</title>
-</head>
-<h1>No Such Link</h1>
-<p>Add a link for <b>{{ slug }}</b></p>
