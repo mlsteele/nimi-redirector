@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+"""
+Tool to get and set the format attribute of a route.
+
+Usage:
+  route-format <route>          # Get the format attribute of a route.
+  route-format <route> <format> # Set the format of a route.
+  route-format <route> clear    # Delete the format setting of a route.
+"""
+import pymongo
+import sys
+
+client = pymongo.MongoClient()
+routes = client.nimi.routes
+
+if len(sys.argv) == 2:
+  slug = sys.argv[1]
+  route = routes.find_one({"slug": slug})
+  if route:
+    print route.get("format", None)
+    sys.exit(0)
+  else:
+    print "No such route"
+    sys.exit(1)
+elif len(sys.argv) == 3:
+  slug = sys.argv[1]
+  target_format = sys.argv[2]
+  route = routes.find_one({"slug": slug})
+  if route:
+    routes.update({"_id": route['_id']}, {
+      "$set": {
+        "format": target_format
+        }})
+    print "Done."
+    sys.exit(0)
+  else:
+    print "No such route"
+    sys.exit(1)
+else:
+  print "Incorrect usage: See docstring"
+  sys.exit(1)
