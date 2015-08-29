@@ -40,6 +40,16 @@ def somewhere(path):
                                  slug=path,
                                  example=get_example_url())
 
+@app.route("/<path:path1> <path:path2>")
+def elsewhere(path1, path2):
+  route = mongo.db.routes.find_one({"slug": path1})
+  if route and "format" in route and route["format"] == "moira":
+    url = "{}/list/{}".format(route["url"], path2)
+    return flask.redirect(url)
+  else:
+    compound_url = "{} {}".format(path1, path2)
+    return somewhere(path=compound_url)
+
 def get_example_url():
   if random.random() < 0.1:
     return "https://xkcd.com/{}/".format(random.randint(1, 1566))
