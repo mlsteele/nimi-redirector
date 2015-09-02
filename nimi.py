@@ -11,7 +11,7 @@ EXAMPLE_WORDS = ["correct", "horse", "battery", "stapler"]
 @app.route("/")
 def root():
   display_routes = [(r["slug"], r["url"])
-                    for r in mongo.db.routes.find().limit(40)]
+                    for r in mongo.db.routes.find()]
   return flask.render_template("index.html",
                                routes=display_routes)
 
