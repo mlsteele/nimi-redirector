@@ -1,5 +1,6 @@
 import itertools
 import random
+import re
 import flask
 import flask.ext.pymongo
 
@@ -7,6 +8,17 @@ app = flask.Flask(__name__)
 mongo = flask.ext.pymongo.PyMongo(app)
 
 EXAMPLE_WORDS = ["correct", "horse", "battery", "stapler"]
+
+def expand_url(url):
+  """Expand a url which may or may not include a protocol.
+
+  Adds "http://" to the beginning or urls which do not appear
+  to have a protocol specified."""
+  match = re.search("^\w+://", url)
+  if match:
+    return url
+  else:
+    return "http://{}".format(url)
 
 @app.route("/")
 def root():
@@ -18,15 +30,17 @@ def root():
 @app.route("/", methods=["POST"])
 def modify():
   if flask.request.form["action"] == "create":
+    slug = flask.request.form["slug"]
+    url = expand_url(flask.request.form["url"])
     mongo.db.routes.insert({
-      "slug": flask.request.form["slug"],
-      "url": flask.request.form["url"],
+      "slug": slug,
+      "url": url,
     })
-    return flask.redirect("/")
+    return flask.redirect(slug)
   if flask.request.form["action"] == "delete":
     slug = flask.request.form["slug"]
     mongo.db.routes.remove({"slug": slug})
-    return flask.redirect("/")
+    return flask.redirect(slug)
 
   return flask.abort(400)
 
