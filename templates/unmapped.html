@@ -2,10 +2,79 @@
 </body>
 <head>
 <title>Nimi - No Such Link</title>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #2C3E50;
+  }
+  .heading {
+    padding: 15px 30px;
+    background-color: #2C3E50;
+    color: #ECF0F1;
+  }
+  .heading h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .heading p {
+    padding: 0;
+    margin: 0;
+  }
+  .page {
+    padding: 40px;
+  }
+  .page h2 {
+    text-align: center;
+    margin: 5px;
+  }
+  .page p {
+    text-align: center;
+  }
+  .page .slug {
+    font-weight: 600;
+  }
+  .page form {
+    text-align: center;
+    padding: 10px;
+  }
+  .page form input[name="url"] {
+    height: 30px;
+    width: 200px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    border: 1px solid #2C3E50;
+  }
+  .page form input[name="url"]:focus {
+    box-shadow: inset #2980B9 0 0 3px;
+    outline: 0;
+  }
+  .page form button {
+    width: 60px;
+    height: 42px;
+    margin-left: -7px;
+    border: 1px solid #2C3E50;
+    border-radius: 0 3px 3px 0;
+    background-color: #2C3E50;
+    color: #ECF0F1;
+  }
+</style>
 </head>
 
-<h1>No Such Link</h1>
-<p>Add a link for <b>{{ slug }}</b></p>
+<section class="heading">
+<h1>Nimi</h1>
+<p>Short link redirector.</p>
+</section>
+
+<section class="page">
+<h2>No Such Link</h2>
+<p>Add a link for <span class="slug">{{ slug }}</span></p>
 
 <form action="/" method="post">
   <input hidden="true" name="action" value="create">
@@ -13,6 +82,7 @@
   <input name="url" placeholder="{{ example }}" autofocus="true">
   <button>Ok</button>
 </form>
+</section>
 
 </body>
 </html>
